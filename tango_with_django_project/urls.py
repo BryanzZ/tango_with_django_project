@@ -17,9 +17,10 @@ from django.conf.urls import url
 from django.contrib import admin
 from rango import views
 from django.conf.urls import include
+from django.views.generic import RedirectView
 
 urlpatterns = [
-    url(r'^$', views.index, name='index'),
+    url(r'^$', RedirectView.as_view(url='/rango')),
     url(r'^rango/', include('rango.urls')),
     url(r'^admin/', admin.site.urls),
 ]

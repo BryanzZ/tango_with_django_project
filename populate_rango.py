@@ -1,7 +1,6 @@
 import os
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE',
-                      'tango_with_django_project.settings')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'tango_with_django_project.settings')
 
 import django
 
@@ -31,18 +30,21 @@ def populate():
         {"title": "Flask",
          "url": "http://flask.pocoo.org"}]
 
-    cats = {"Python": {"pages": python_pages},
-            "Django": {"pages": django_pages},
-            "Other Frameworks": {"pages": other_pages}}
+    cats = [
+        {"name": "Python", "page": python_pages, "views": 128, "likes": 64},
+        {"name": "Django", "page": django_pages, "views": 64, "likes": 32},
+        {"name": "Other Frameworks", "page": other_pages, "views": 32, "likes": 16},
+    ]
 
-    for cat, cat_data in cats.items():
-        c = add_cat(cat)
-        for p in cat_data["pages"]
+    for cat in cats:
+        c = add_cat(cat["name"], cat["views"], cat["likes"])
+        for p in cat["page"]:
             add_page(c, p["title"], p["url"])
 
-    for c in Category.objects.all():
-        for p in Page.objects.filter(category=c):
-            print("- {0} - {1}".format(str(c), str(p)))
+
+for c in Category.objects.all():
+    for p in Page.objects.filter(category=c):
+        print("- {0} - {1}".format(str(c), str(p)))
 
 
 def add_page(cat, title, url, views=0):
@@ -53,8 +55,8 @@ def add_page(cat, title, url, views=0):
     return p
 
 
-def add_cat(name):
-    c = Category.objects.get_or_create(name=name)[0]
+def add_cat(name, views, likes):
+    c = Category.objects.get_or_create(name=name, views=views, likes=likes)[0]
     c.save()
     return c
 
